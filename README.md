@@ -34,8 +34,18 @@ R. Write /keyworld instead of keyworld
  * token, the bot token
  * offset, the last msg id received from telegram api
 
-# Docker
-## build
+
+# Docker pull from repo
+## Pull image from docker hub
+```shell
+$ docker pull dsoloviev/telegram-git-bot
+```
+```shell
+$ docker run -d -p 10111:10111 --name telegram-git-bot -e AUTHMSG="XXX" -e TOKEN="XXX:XXX" dsoloviev/telegram-git-bot
+```
+
+# Docker build local image
+## image build
 ```shell
 $ docker build -t bot .
 ```
