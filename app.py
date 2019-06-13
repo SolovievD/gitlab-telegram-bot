@@ -144,7 +144,15 @@ def generatePipelineMsg(data):
 
 
 def generateBuildMsg(data):
-    return 'new build stuff'
+        gitlab_user_name = data['user']['name']
+        project = data['project_name']
+        commit_id = data['commit']['id']
+        job_name = data['build_name']
+        job_stage = data['build_stage']
+        status = data['build_status']
+        build_id = data['build_id']
+        msg = "*New Gitlab event* \n Action: {kind} \n Project: {project} \n User: {gitlab_user_name} \n Commit: {commit_id} \n Job name: {job_name} \n Job stage: {job_stage} \n {emoji} Status: {status}" ;
+        return msg
 
 
 if __name__ == "__main__":
