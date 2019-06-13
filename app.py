@@ -72,8 +72,8 @@ def webhook():
         msg = generateWikiMsg(data)
     elif kind == 'pipeline':
         msg = generatePipelineMsg(data)
-    elif kind == 'build':
-        msg = generateBuildMsg(data)
+    elif kind == 'build' and data['build_status'] is not None and data['build_status'] != 'created':
+        msg = generateBuildMsg(data,kind)
     b.send_to_all(msg)
     return jsonify({'status': 'ok'})
 
@@ -143,7 +143,7 @@ def generatePipelineMsg(data):
     return 'new pipeline stuff'
 
 
-def generateBuildMsg(data):
+def generateBuildMsg(data,kind):
         gitlab_user_name = data['user']['name']
         project = data['project_name']
         commit_id = data['commit']['id']
@@ -151,7 +151,21 @@ def generateBuildMsg(data):
         job_stage = data['build_stage']
         status = data['build_status']
         build_id = data['build_id']
-        msg = "*New Gitlab event* \n Action: {kind} \n Project: {project} \n User: {gitlab_user_name} \n Commit: {commit_id} \n Job name: {job_name} \n Job stage: {job_stage} \n {emoji} Status: {status}" ;
+        if status == 'created':
+            emoji = "E29C8C"
+        if status == 'running':
+            emoji = "\U000025B6"
+        if status == "success":
+            emoji = "\U00002705"
+        if status == 'failed':
+            emoji = "\U0000274C"
+        if status == 'canceled':
+            emoji = "\U0000274E"
+        msg = '*New Gitlab event* \n Action: {0} \n Project: {1} \n User: {2} \n Commit: {3} \n Job name: {4} \n Job stage: {5} \n {6} Status: {7}'\
+        .format(kind,project,gitlab_user_name,commit_id,job_name,job_stage,emoji,status)
+        
+        print (project)
+        print(data)
         return msg
 
 
