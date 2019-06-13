@@ -40,6 +40,7 @@ R. Write /keyworld instead of keyworld
 ```shell
 $ docker pull dsoloviev/telegram-git-bot
 ```
+## run
 ```shell
 $ docker run -d -p 10111:10111 --name telegram-git-bot -e AUTHMSG="XXX" -e TOKEN="XXX:XXX" dsoloviev/telegram-git-bot
 ```
